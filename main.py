@@ -5,26 +5,13 @@ from time import sleep
 import serial
 
 root = Tk()
+root.title("Ensayos")
 
 estilo = ttk.Style()
-estilo.theme_use('clam')
-estilo.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+estilo.theme_use('default')
+estilo.configure("green.Horizontal.TProgressbar", foreground='green', background='green', thickness=70)
 
 root.geometry('700x300')
-
-barramenu = Menu(root)
-root.config(menu=barramenu)
-
-filemenu = Menu(barramenu)
-editmenu = Menu(barramenu)
-helpmenu = Menu(barramenu)
-
-barramenu.add_cascade(label="Archivo", menu=filemenu)
-barramenu.add_cascade(label="Editar", menu=editmenu)
-barramenu.add_cascade(label="Ayuda", menu=helpmenu)
-
-botonon = 'yellow'
-botonoff = '#F0F0F0'
 
 def Presionado(btn):
     if btn['bg'] == botonoff:
@@ -40,12 +27,61 @@ def CambioClase(event):
         boton4.config(state='normal')
         boton5.config(state='normal')
 
+def VentanaAggProducto():
+    AggProducto = Toplevel(root)
+    AggProducto.title("Agregar producto")
+    AggProducto.geometry("250x325")
+    Marca = Entry(AggProducto)
+    Modelo = Entry(AggProducto)
+    Descripcion = Entry(AggProducto)
+    PotenciaN = Entry(AggProducto)
+    Tension = Entry(AggProducto)
+    CorrienteM = Entry(AggProducto)
+    Frecuencia = ttk.Combobox(AggProducto, state='readonly')
+    Frecuencia['values'] = ('50Hz','60Hz')
+    Clase = ttk.Combobox(AggProducto, state='readonly')
+    Clase['values'] = ('Clase 1', 'Clase 2')
 
-separador1 = Label(root, text='  ').grid(row=3, column=0)
-separador2 = Label(root, text='  ').grid(row=2, column=2)
-separador3 = Label(root, text='  ').grid(row=2, column=4)
-separador4 = Label(root, text='  ').grid(row=2, column=6)
-separador5 = Label(root, text='  ').grid(row=2, column=8)
+    Marcalbl = Label(AggProducto, text='Marca:', width=11, anchor='w', pady=10).grid(row=1, column=0)
+    Modelolbl = Label(AggProducto, text='Modelo:', width=11, anchor='w', pady=10).grid(row=2, column=0)
+    Descripcionlbl = Label(AggProducto, text='Descripcion:', width=11, anchor='w', pady=10).grid(row=3, column=0)
+    PotenciaNlbl = Label(AggProducto, text='Potencia Nom.:', width=11, anchor='w', pady=10).grid(row=4, column=0)
+    Tensionlbl = Label(AggProducto, text='Tension:', width=11, anchor='w', pady=10).grid(row=5, column=0)
+    CorrienteMlbl = Label(AggProducto, text='Corriente Max.:', width=11, anchor='w', pady=10).grid(row=6, column=0)
+    Frecuencialbl = Label(AggProducto, text='Frecuencia:', width=11, anchor='w', pady=10).grid(row=7, column=0)
+    Claselbl = Label(AggProducto, text='Clase:', width=11, anchor='w', pady=10).grid(row=8, column=0)
+    
+    Marca.grid(row=1, column=1)
+    Modelo.grid(row=2, column=1)
+    Descripcion.grid(row=3, column=1)
+    PotenciaN.grid(row=4, column=1)
+    Tension.grid(row=5, column=1)
+    CorrienteM.grid(row=6, column=1)
+    Frecuencia.grid(row=7, column=1)
+    Clase.grid(row=8, column=1)
+
+
+
+
+barramenu = Menu(root)
+root.config(menu=barramenu)
+
+productmenu = Menu(barramenu, tearoff=0)
+
+barramenu.add_cascade(label="Productos", menu=productmenu)
+
+productmenu.add_command(label="Agregar Producto", command=VentanaAggProducto)
+productmenu.add_command(label="Eliminar Producto")
+
+botonon = 'yellow'
+botonoff = '#F0F0F0'
+
+separador0 = Label(root, text='  ').grid(row=0, column=0)
+separador1 = Label(root, text='                                                            ').grid(row=1, column=0)
+separador2 = Label(root, text='  ').grid(row=2, column=3)
+separador3 = Label(root, text='  ').grid(row=2, column=5)
+separador4 = Label(root, text='  ').grid(row=2, column=7)
+separador5 = Label(root, text='  ').grid(row=2, column=9)
 
 boton1 = Button(root, text='Corriente', bg=botonoff, padx='12px', pady='5px', command=lambda: Presionado(boton1))
 boton2 = Button(root, text='Potencia', bg=botonoff, padx='12px', pady='5px', command=lambda: Presionado(boton2))
@@ -56,28 +92,28 @@ a tierra""", bg=botonoff, padx='12px', pady='0px', command=lambda: Presionado(bo
 boton5 = Button(root, text="""Corriente 
 de fuga""", bg=botonoff, padx='12px', pady='0px', command=lambda: Presionado(boton5))
 
-barra1 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical')
-barra2 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical')
-barra3 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical')
-barra4 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical')
-barra5 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical')
+barra1 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical', value=50, length=150)
+barra2 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical', length=150)
+barra3 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical', length=150)
+barra4 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical', length=150)
+barra5 = ttk.Progressbar(root, style='green.Horizontal.TProgressbar', orient='vertical', length=150)
 
 variable_clase = StringVar()
 clase = ttk.Combobox(root, textvariable=variable_clase, state='readonly')
 clase['values'] = ('Clase 1', 'Clase 2')
 clase.bind('<<ComboboxSelected>>', CambioClase)
 
-clase.grid(row=0, column=0)
+clase.place(x=30, y=30)
 
-barra1.grid(row=1, column=1)
-boton1.grid(row=2, column=1)
-barra2.grid(row=1, column=3)
-boton2.grid(row=2, column=3)
-barra3.grid(row=1, column=5)
-boton3.grid(row=2, column=5)
-barra4.grid(row=1, column=7)
-boton4.grid(row=2, column=7)
-barra5.grid(row=1, column=9)
-boton5.grid(row=2, column=9)
+barra1.grid(row=1, column=2)
+boton1.grid(row=2, column=2)
+barra2.grid(row=1, column=4)
+boton2.grid(row=2, column=4)
+barra3.grid(row=1, column=6)
+boton3.grid(row=2, column=6)
+barra4.grid(row=1, column=8)
+boton4.grid(row=2, column=8)
+barra5.grid(row=1, column=10)
+boton5.grid(row=2, column=10)
 
 root.mainloop()
